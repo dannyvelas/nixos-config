@@ -39,6 +39,8 @@
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
+    alacritty
+    bitwarden-desktop
     claude-code
     git
     neovim
