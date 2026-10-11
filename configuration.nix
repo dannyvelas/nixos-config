@@ -34,7 +34,7 @@
   users.users.dannyvelasquez = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
-    hashedPassword = "$6$QT2EEBX0LT.gwkc7$Q.wgXdnERpfy/SxqS01bVqX.WxzTFlEgp6XA9kbL7x5/aQityr90yb7YEc0QYQH9nBZgCJD1XaCDtNst399Kq0";
+    hashedPasswordFile = "/etc/secrets/dannyvelasquez.hash";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINgCvIlrPS3ePhD/8nEQIUOssl75B+215b3HEcCkEnjb dannyvelasquez@Daniels-MacBook-Pro.local"
     ];
