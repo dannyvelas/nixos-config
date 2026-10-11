@@ -1,0 +1,67 @@
+# Starter Sway config, deployed system-wide to /etc/sway/config via configuration.nix.
+# Used as the fallback whenever a user has no ~/.config/sway/config of their own.
+
+set $mod Mod4
+set $term foot
+set $menu wofi --show drun
+
+font pango:monospace 10
+
+floating_modifier $mod normal
+
+# Launch bar and notifications with the session
+exec waybar
+exec mako
+
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+shift+q kill
+bindsym $mod+shift+c reload
+bindsym $mod+shift+e exec swaynag -t warning -m 'Exit sway?' -b 'Yes' 'swaymsg exit'
+
+# Focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move
+bindsym $mod+shift+Left move left
+bindsym $mod+shift+Down move down
+bindsym $mod+shift+Up move up
+bindsym $mod+shift+Right move right
+
+# Layout
+bindsym $mod+h splith
+bindsym $mod+v splitv
+bindsym $mod+f fullscreen
+bindsym $mod+shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Workspaces
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+shift+1 move container to workspace 1
+bindsym $mod+shift+2 move container to workspace 2
+bindsym $mod+shift+3 move container to workspace 3
+bindsym $mod+shift+4 move container to workspace 4
+bindsym $mod+shift+5 move container to workspace 5
+
+# Resize
+mode "resize" {
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Screenshots
+bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+include /etc/sway/config.d/*

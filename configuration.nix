@@ -22,12 +22,32 @@
   networking.networkmanager.enable = true;
   time.timeZone = "America/New_York";
 
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm.enable = true;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
+  # Default config for any user without their own ~/.config/sway/config
+  environment.etc."sway/config".source = ./sway/config;
 
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+      user = "greeter";
+    };
+  };
   programs.firefox.enable = true;
 
-  environment.systemPackages = with pkgs; [ claude-code git neovim ];
+  environment.systemPackages = with pkgs; [
+    claude-code
+    git
+    neovim
+    foot        # terminal
+    waybar      # status bar
+    wofi        # app launcher
+    mako        # notifications
+    greetd.tuigreet
+  ];
 
   # Keeps your fast SSH loop alive after the first reboot
   services.openssh.enable = true;
