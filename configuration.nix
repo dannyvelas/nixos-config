@@ -27,6 +27,8 @@
 
   programs.firefox.enable = true;
 
+  environment.systemPackages = with pkgs; [ claude-code git neovim ];
+
   # Keeps your fast SSH loop alive after the first reboot
   services.openssh.enable = true;
   services.avahi = { enable = true; nssmdns4 = true; publish = { enable = true; addresses = true; }; };
@@ -39,6 +41,8 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINgCvIlrPS3ePhD/8nEQIUOssl75B+215b3HEcCkEnjb dannyvelasquez@Daniels-MacBook-Pro.local"
     ];
   };
+  # Rebuild /etc/shadow from the config each switch, so the hash file stays the source of truth
+  users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
 
   services.mbpfan.enable = true;
