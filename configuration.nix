@@ -26,8 +26,6 @@
     enable = true;
     wrapperFeatures.gtk = true;
   };
-  # Default config for any user without their own ~/.config/sway/config
-  environment.etc."sway/config".source = ./sway/config;
 
   services.greetd = {
     enable = true;
@@ -95,6 +93,8 @@
     };
 
     services.ssh-agent.enable = true;
+
+    xdg.configFile."sway/config".source = ./sway/config;
   };
 
   services.mbpfan.enable = true;
