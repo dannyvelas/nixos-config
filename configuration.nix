@@ -52,13 +52,19 @@
     bitwarden-desktop
     brightnessctl
     claude-code
+    fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
+    gcc         # C compiler opam needs to build OCaml switches from source
     git
+    gnumake     # opam needs it to build OCaml switches from source
+    jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
+    opam        # fish shell integration, see ../dotfiles/.config/fish/config.fish
     playerctl   # media key bindings in sway/config
     waybar      # status bar
     wofi        # app launcher
     mako        # notifications
     tuigreet
+    zoxide      # fish shell integration, see ../dotfiles/.config/fish/config.fish
   ];
 
   # Keeps your fast SSH loop alive after the first reboot
