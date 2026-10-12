@@ -42,6 +42,7 @@
     };
   };
   programs.firefox.enable = true;
+  programs.fish.enable = true;
 
   # waybar's default modules render icons from this glyph set; without it they show as tofu boxes
   fonts.packages = [ pkgs.font-awesome ];
