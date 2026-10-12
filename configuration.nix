@@ -44,6 +44,12 @@
   programs.firefox.enable = true;
   programs.fish.enable = true;
 
+  # nvim-treesitter (and Mason, and anything else that downloads prebuilt
+  # Linux binaries, e.g. the tree-sitter CLI) expects a standard dynamic
+  # linker at /lib64/ld-linux-x86-64.so.2, which NixOS doesn't have by
+  # default. nix-ld provides that shim. See https://nix.dev/permalink/stub-ld
+  programs.nix-ld.enable = true;
+
   # waybar's default modules render icons from this glyph set; without it they show as tofu boxes
   # alacritty's font (../dotfiles/.config/alacritty/alacritty.toml) is "FiraMono Nerd Font"
   fonts.packages = [ pkgs.font-awesome pkgs.nerd-fonts.fira-mono ];
