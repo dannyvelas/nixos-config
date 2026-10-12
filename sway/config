@@ -37,6 +37,7 @@ bindsym $mod+shift+Right move right
 # Layout
 bindsym $mod+b splith
 bindsym $mod+v splitv
+bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+shift+space floating toggle
 bindsym $mod+space focus mode_toggle
