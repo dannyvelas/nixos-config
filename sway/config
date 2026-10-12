@@ -60,6 +60,11 @@ output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_19
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
 
+# Caps Lock acts as Ctrl; the physical Left Ctrl key becomes Compose instead
+input type:keyboard {
+    xkb_options "ctrl:nocaps,compose:lctrl"
+}
+
 ### Key bindings
 #
 # Basics:
