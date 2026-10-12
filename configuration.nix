@@ -30,8 +30,8 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-    # Default extraPackages includes foot; drop it since alacritty is the terminal here
-    extraPackages = with pkgs; [ brightnessctl grim pulseaudio swayidle swaylock wmenu ];
+    # Default extraPackages includes foot and wmenu; alacritty/wofi are used instead
+    extraPackages = with pkgs; [ brightnessctl grim pulseaudio swayidle swaylock ];
   };
 
   services.greetd = {
