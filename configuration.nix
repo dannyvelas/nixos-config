@@ -104,6 +104,7 @@
     services.ssh-agent.enable = true;
 
     xdg.configFile."sway/config".source = ./sway/config;
+    xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   };
 
   services.mbpfan.enable = true;
