@@ -44,12 +44,6 @@
   programs.firefox.enable = true;
   programs.fish.enable = true;
 
-  # nvim-treesitter (and Mason, and anything else that downloads prebuilt
-  # Linux binaries, e.g. the tree-sitter CLI) expects a standard dynamic
-  # linker at /lib64/ld-linux-x86-64.so.2, which NixOS doesn't have by
-  # default. nix-ld provides that shim. See https://nix.dev/permalink/stub-ld
-  programs.nix-ld.enable = true;
-
   # waybar's default modules render icons from this glyph set; without it they show as tofu boxes
   # alacritty's font (../dotfiles/.config/alacritty/alacritty.toml) is "FiraMono Nerd Font"
   fonts.packages = [ pkgs.font-awesome pkgs.nerd-fonts.fira-mono ];
@@ -60,9 +54,10 @@
     brightnessctl
     claude-code
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
-    gcc         # C compiler opam needs to build OCaml switches from source
+    gcc         # C compiler: opam needs it to build OCaml switches from source,
+                # nvim-treesitter needs it to compile parsers
     git
-    gnumake     # opam needs it to build OCaml switches from source
+    gnumake     # opam needs it to build OCaml switches from source; also handy for projects that use Makefiles
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
     opam        # fish shell integration, see ../dotfiles/.config/fish/config.fish
@@ -72,7 +67,43 @@
     mako        # notifications
     tuigreet
     zoxide      # fish shell integration, see ../dotfiles/.config/fish/config.fish
-  ];
+  ] ++ (
+    # LazyVim (../dotfiles/.config/nvim) uses Mason to install LSP servers,
+    # formatters, linters and debuggers at runtime. That works on macOS but
+    # not on NixOS: most Mason-downloaded binaries are generic Linux builds
+    # that fail with "Could not start dynamically linked executable" here.
+    # So on NixOS, Mason is disabled instead (../dotfiles/.config/nvim/lua/
+    # plugins/nixos.lua, gated on /etc/NIXOS) and every tool it would have
+    # installed is provided natively by Nix below.
+    #
+    # This list has to be kept in sync by hand with the LazyVim extras
+    # enabled in ../dotfiles/.config/nvim/lazyvim.json -- if you enable a
+    # new language extra there, its tools need to be added here too.
+    # OCaml is the one exception: it's intentionally left off this list and
+    # still managed through opam (see the fish/opam setup above), so
+    # ocaml-lsp is not installed via Nix.
+    with pkgs; [
+      clang-tools              # clangd (C/C++ LSP)
+      delve                    # Go debugger (dap.core + lang.go)
+      gofumpt                  # Go formatter
+      golangci-lint            # Go linter
+      gopls                    # Go LSP
+      gotools                  # goimports (Go formatter)
+      lua-language-server      # Lua LSP
+      nodejs                   # runs Copilot's bundled agent; also vtsls' runtime
+      pyright                  # Python LSP
+      ruff                     # Python LSP/linter/formatter
+      rust-analyzer            # Rust LSP (invoked directly by rustaceanvim)
+      stylua                   # Lua formatter
+      terraform-ls             # Terraform LSP
+      tflint                   # Terraform linter
+      tree-sitter              # CLI nvim-treesitter shells out to for parser builds
+      vscode-langservers-extracted  # vscode-json-language-server (JSON LSP)
+      vtsls                    # TypeScript/JavaScript LSP
+      yaml-language-server     # YAML LSP
+      go                       # Go toolchain itself (gopls/goimports/gofumpt all shell out to it)
+    ]
+  );
 
   # Keeps your fast SSH loop alive after the first reboot
   services.openssh.enable = true;
