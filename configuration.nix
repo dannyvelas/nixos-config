@@ -54,13 +54,11 @@
     brightnessctl
     claude-code
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
-    gcc         # C compiler: opam needs it to build OCaml switches from source,
-                # nvim-treesitter needs it to compile parsers
+    gcc         # C compiler nvim-treesitter needs to compile parsers
     git
-    gnumake     # opam needs it to build OCaml switches from source; also handy for projects that use Makefiles
+    gnumake     # handy for projects that use Makefiles
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
-    opam        # fish shell integration, see ../dotfiles/.config/fish/config.fish
     playerctl   # media key bindings in sway/config
     waybar      # status bar
     wofi        # app launcher
@@ -79,9 +77,6 @@
     # This list has to be kept in sync by hand with the LazyVim extras
     # enabled in ../dotfiles/.config/nvim/lazyvim.json -- if you enable a
     # new language extra there, its tools need to be added here too.
-    # OCaml is the one exception: it's intentionally left off this list and
-    # still managed through opam (see the fish/opam setup above), so
-    # ocaml-lsp is not installed via Nix.
     with pkgs; [
       clang-tools              # clangd (C/C++ LSP)
       delve                    # Go debugger (dap.core + lang.go)
@@ -91,6 +86,7 @@
       gotools                  # goimports (Go formatter)
       lua-language-server      # Lua LSP
       nodejs                   # runs Copilot's bundled agent; also vtsls' runtime
+      ocamlPackages.ocaml-lsp  # ocamllsp (OCaml LSP)
       pyright                  # Python LSP
       ruff                     # Python LSP/linter/formatter
       rust-analyzer            # Rust LSP (invoked directly by rustaceanvim)
