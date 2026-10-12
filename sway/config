@@ -23,6 +23,10 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # Move
 bindsym $mod+shift+Left move left
@@ -31,7 +35,7 @@ bindsym $mod+shift+Up move up
 bindsym $mod+shift+Right move right
 
 # Layout
-bindsym $mod+h splith
+bindsym $mod+b splith
 bindsym $mod+v splitv
 bindsym $mod+f fullscreen
 bindsym $mod+shift+space floating toggle
