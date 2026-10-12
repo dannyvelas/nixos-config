@@ -32,7 +32,7 @@
   services.greetd = {
     enable = true;
     settings.default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+      command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
       user = "greeter";
     };
   };
@@ -48,7 +48,7 @@
     waybar      # status bar
     wofi        # app launcher
     mako        # notifications
-    greetd.tuigreet
+    tuigreet
   ];
 
   # Keeps your fast SSH loop alive after the first reboot
