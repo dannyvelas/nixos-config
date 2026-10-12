@@ -41,6 +41,9 @@
   };
   programs.firefox.enable = true;
 
+  # waybar's default modules render icons from this glyph set; without it they show as tofu boxes
+  fonts.packages = [ pkgs.font-awesome ];
+
   environment.systemPackages = with pkgs; [
     alacritty
     bitwarden-desktop
