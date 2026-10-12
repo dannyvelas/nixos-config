@@ -6,6 +6,10 @@ for GitHub. Built from a flake (`flake.nix` + `flake.lock`), so every
 package version is pinned and reproducible — no `nix-channel` involved
 anywhere.
 
+tmux, Neovim, Alacritty, and fish configs aren't declared here — they're
+symlinked in from a separate [`dotfiles`](https://github.com/dannyvelas/dotfiles)
+repo shared across machines. See "Shared dotfiles" below.
+
 **Setting this up from scratch** (USB installer → a fully working desktop)?
 See [How to install NixOS with Sway and Broadcom Wi-Fi on a 2014 MacBook
 Pro](https://github.com/dannyvelas/notes/blob/main/vault/how-to-install-nixos-with-sway-and-broadcom-wifi-on-a-2014-macbook-pro.md)
@@ -48,6 +52,24 @@ persist loaded keys across reboots, so after every reboot:
 ssh-add ~/.ssh/id_ed25519_github
 ```
 
+## Shared dotfiles
+
+tmux, Neovim, Alacritty, and fish configs live in the separate
+[`dotfiles`](https://github.com/dannyvelas/dotfiles) repo, since they're
+shared across machines (not just this one) and would drift if duplicated
+here. `home-manager.users.dannyvelasquez` in `configuration.nix` points
+`home.file`/`xdg.configFile` entries at that repo via
+`mkOutOfStoreSymlink`, hardcoded to expect a clone at
+`~/RemoteGit/MyGithub/dotfiles`. That makes them real out-of-store
+symlinks rather than files copied into the Nix store, so editing a config
+in `dotfiles` takes effect immediately — no rebuild needed. It also means
+the rebuild never checks the clone exists: see the troubleshooting entry
+below if a tool behaves as if unconfigured.
+
+sway and waybar configs, by contrast, are declared directly in this repo
+(`./sway/config`, `./waybar/config.jsonc`) because they're specific to
+this machine — there's nothing to deduplicate.
+
 ## Troubleshooting
 
 - **Build error: `'<pkg>' has been renamed to/replaced by '<new-pkg>'`** —
@@ -69,6 +91,12 @@ ssh-add ~/.ssh/id_ed25519_github
   overwrite any unmanaged file it finds in its way.
 - **GitHub SSH stopped working after a reboot** — see "GitHub SSH access"
   above.
+- **`nvim`/`tmux`/`fish`/`alacritty` behave as if unconfigured, with no
+  error from the rebuild** — the `dotfiles` clone is either missing or not
+  at `~/RemoteGit/MyGithub/dotfiles` exactly, so the out-of-store symlink
+  is dangling. Check with `readlink -f ~/.config/nvim` (etc.); if it
+  doesn't resolve into that clone, fix the clone's location rather than
+  editing `configuration.nix`. See "Shared dotfiles" above.
 - For anything about partitioning, the Broadcom driver, the password hash
   file, or the install itself, see the "If something goes wrong" section
   of the [install note](https://github.com/dannyvelas/notes/blob/main/vault/how-to-install-nixos-with-sway-and-broadcom-wifi-on-a-2014-macbook-pro.md).

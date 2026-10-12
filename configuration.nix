@@ -80,7 +80,10 @@
   home-manager.backupFileExtension = "backup";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.dannyvelasquez = { ... }: {
+  home-manager.users.dannyvelasquez = { config, ... }: let
+    dotfilesDir = "${config.home.homeDirectory}/RemoteGit/MyGithub/dotfiles";
+    outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
+  in {
     home.stateVersion = "26.05";
 
     programs.git = {
@@ -107,6 +110,13 @@
 
     xdg.configFile."sway/config".source = ./sway/config;
     xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
+
+    # Shared across machines; single source of truth lives in ../dotfiles,
+    # these just symlink straight to the checkout so edits apply with no rebuild.
+    home.file.".tmux.conf".source = outOfStore ".tmux.conf";
+    xdg.configFile."nvim".source = outOfStore ".config/nvim";
+    xdg.configFile."alacritty/alacritty.toml".source = outOfStore ".config/alacritty/alacritty.toml";
+    xdg.configFile."fish".source = outOfStore ".config/fish";
   };
 
   services.mbpfan.enable = true;
