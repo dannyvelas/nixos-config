@@ -18,6 +18,11 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   boot.blacklistedKernelModules = [ "b43" "bcma" "ssb" "brcmsmac" "brcmfmac" ];
 
+  # F1/F2 etc. send media functions directly (fkeyslast), matching macOS; hold Fn for literal F-keys
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=1
+  '';
+
   networking.hostName = "mbp";
   networking.networkmanager.enable = true;
   time.timeZone = "America/New_York";
@@ -39,6 +44,7 @@
   environment.systemPackages = with pkgs; [
     alacritty
     bitwarden-desktop
+    brightnessctl
     claude-code
     git
     neovim

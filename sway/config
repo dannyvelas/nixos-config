@@ -1,5 +1,4 @@
-# Starter Sway config, deployed system-wide to /etc/sway/config via configuration.nix.
-# Used as the fallback whenever a user has no ~/.config/sway/config of their own.
+# Sway config, deployed to ~/.config/sway/config via home-manager (see configuration.nix).
 
 set $mod Mod4
 set $term foot
@@ -63,5 +62,9 @@ bindsym $mod+r mode "resize"
 
 # Screenshots
 bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+# Brightness (F1/F2 on the MacBook's own keyboard; hid_apple fnmode=1 sends these directly)
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
 include /etc/sway/config.d/*
