@@ -53,6 +53,7 @@
     claude-code
     git
     neovim
+    playerctl   # media key bindings in sway/config
     waybar      # status bar
     wofi        # app launcher
     mako        # notifications
