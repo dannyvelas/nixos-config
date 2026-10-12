@@ -45,7 +45,8 @@
   programs.fish.enable = true;
 
   # waybar's default modules render icons from this glyph set; without it they show as tofu boxes
-  fonts.packages = [ pkgs.font-awesome ];
+  # alacritty's font (../dotfiles/.config/alacritty/alacritty.toml) is "FiraMono Nerd Font"
+  fonts.packages = [ pkgs.font-awesome pkgs.nerd-fonts.fira-mono ];
 
   environment.systemPackages = with pkgs; [
     alacritty   # terminal
