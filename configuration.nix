@@ -67,6 +67,36 @@
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
 
+  # home-manager-managed dotfiles for git/ssh; existing unmanaged files get a .backup suffix
+  home-manager.backupFileExtension = "backup";
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.dannyvelasquez = { ... }: {
+    home.stateVersion = "26.05";
+
+    programs.git = {
+      enable = true;
+      settings.user = {
+        name = "Daniel Velasquez";
+        email = "42185968+dannyvelas@users.noreply.github.com";
+      };
+    };
+
+    # SSH key itself is generated separately with ssh-keygen (not something to put in the nix store)
+    programs.ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      settings."*".IdentityAgent = "\${XDG_RUNTIME_DIR}/ssh-agent";
+      settings."github.com" = {
+        HostName = "github.com";
+        IdentityFile = "~/.ssh/id_ed25519_github";
+        IdentitiesOnly = "yes";
+      };
+    };
+
+    services.ssh-agent.enable = true;
+  };
+
   services.mbpfan.enable = true;
   hardware.enableRedistributableFirmware = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
