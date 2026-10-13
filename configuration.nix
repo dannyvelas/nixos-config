@@ -60,6 +60,7 @@
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
     playerctl   # media key bindings in sway/config
+    tmux
     waybar      # status bar
     wofi        # app launcher
     mako        # notifications
