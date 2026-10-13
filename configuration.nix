@@ -59,6 +59,7 @@
     gnumake     # handy for projects that use Makefiles
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
+    obsidian
     playerctl   # media key bindings in sway/config
     tmux
     waybar      # status bar
