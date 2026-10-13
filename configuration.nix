@@ -48,6 +48,8 @@
   # alacritty's font (../dotfiles/.config/alacritty/alacritty.toml) is "FiraMono Nerd Font"
   fonts.packages = [ pkgs.font-awesome pkgs.nerd-fonts.fira-mono ];
 
+  environment.variables.EDITOR = "nvim"; # overrides NixOS's default of nano
+
   environment.systemPackages = with pkgs; [
     alacritty   # terminal
     bitwarden-desktop
