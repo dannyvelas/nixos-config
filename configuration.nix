@@ -54,6 +54,7 @@
     alacritty   # terminal
     bitwarden-desktop
     brightnessctl
+    btop
     claude-code
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     gcc         # C compiler nvim-treesitter needs to compile parsers
