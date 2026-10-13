@@ -52,6 +52,7 @@
 
   environment.systemPackages = with pkgs; [
     alacritty   # terminal
+    anki
     bitwarden-desktop
     brightnessctl
     btop
@@ -64,6 +65,7 @@
     neovim
     obsidian
     playerctl   # media key bindings in sway/config
+    qbittorrent
     tmux
     waybar      # status bar
     wofi        # app launcher
