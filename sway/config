@@ -225,6 +225,10 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
+    # Special keys to adjust keyboard backlight via brightnessctl
+    bindsym --locked XF86KbdBrightnessDown exec brightnessctl -d smc::kbd_backlight set 25%-
+    bindsym --locked XF86KbdBrightnessUp exec brightnessctl -d smc::kbd_backlight set 25%+
+
     # Special key to take a screenshot with grim
     bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
 
