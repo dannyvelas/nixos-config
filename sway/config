@@ -17,9 +17,6 @@ set $right l
 set $term alacritty
 # Your preferred application launcher
 set $menu wofi --show drun
-# Letter-layer "go" mode: $mod+g, then a/o/q/t jumps to (and launches) an app.
-# Hint text doubles as the mode name so it shows up in waybar's sway/mode module.
-set $mode_go go: [a]nki [o]bsidian [q]bittorrent [t]erminal
 
 ### Output configuration
 #
@@ -148,19 +145,6 @@ input type:keyboard {
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
-# Named workspaces for frequently used apps (reached via the "go" mode below,
-# $mod+g then a/o/q/t -- see the mode block near the bottom of this file):
-#
-    # assign pins each app to its own workspace as soon as its window maps,
-    # whether it was opened from wofi, a terminal, or the go mode below.
-    assign [app_id="anki"] workspace a
-    assign [app_id="md.obsidian.Obsidian"] workspace o
-    assign [app_id="org.qbittorrent.qBittorrent"] workspace q
-    # Only the go mode's pinned terminal (launched with --class term-t) lands
-    # here -- regular $mod+Return terminals keep the default app_id
-    # ("Alacritty") and are left alone on whatever workspace they're opened.
-    assign [app_id="term-t"] workspace t
-#
 # Layout stuff:
 #
     # You can "split" the current object of your focus with
@@ -197,13 +181,6 @@ input type:keyboard {
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
-
-    # Bitwarden lives in the scratchpad instead of a workspace. for_window
-    # moves it there as soon as it maps; the bindsym is a dedicated
-    # launch-or-toggle so this doesn't depend on the generic scratchpad
-    # bindings above (those stay generic for whatever else ends up there).
-    for_window [app_id="bitwarden"] move scratchpad
-    bindsym $mod+Shift+b exec "swaymsg -t get_tree | grep -q '\"app_id\": \"bitwarden\"' && swaymsg scratchpad show || exec bitwarden"
 #
 # Resizing containers:
 #
@@ -228,22 +205,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-#
-# "go" mode: a letter layer for jumping to frequently used apps without the
-# single letters ever being live outside the mode (so they can't collide
-# with readline/fzf bindings or anything else). Each key switches to the
-# app's assigned workspace and launches it first if it isn't running yet.
-#
-mode "$mode_go" {
-    bindsym a exec "swaymsg -t get_tree | grep -q '\"app_id\": \"anki\"' || exec anki", workspace a, mode "default"
-    bindsym o exec "swaymsg -t get_tree | grep -q '\"app_id\": \"md.obsidian.Obsidian\"' || exec obsidian", workspace o, mode "default"
-    bindsym q exec "swaymsg -t get_tree | grep -q '\"app_id\": \"org.qbittorrent.qBittorrent\"' || exec qbittorrent", workspace q, mode "default"
-    bindsym t exec "swaymsg -t get_tree | grep -q '\"app_id\": \"term-t\"' || exec alacritty --class term-t", workspace t, mode "default"
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+g mode "$mode_go"
 #
 # Utilities:
 #
