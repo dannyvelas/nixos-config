@@ -60,6 +60,7 @@
     gcc         # C compiler nvim-treesitter needs to compile parsers
     git
     gnumake     # handy for projects that use Makefiles
+    jjui        # TUI for jujutsu
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
     obsidian
