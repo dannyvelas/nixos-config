@@ -65,6 +65,7 @@
     neovim
     obsidian
     playerctl   # media key bindings in sway/config
+    ripgrep     # rg
     tmux
     waybar      # status bar
     wofi        # app launcher
