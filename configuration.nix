@@ -63,6 +63,7 @@
     neovim
     obsidian
     playerctl   # media key bindings in sway/config
+    rclone      # Google Drive access; no official Linux client exists
     ripgrep     # rg
     sops        # edit/rotate secrets/secrets.yaml
     tmux
