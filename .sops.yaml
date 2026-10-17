@@ -1,7 +1,0 @@
-keys:
-  - &danny age187zyhmz87vv863mpphrwasp5km2qfgptxnsmzsnuxy899geh73vs9nfle9
-creation_rules:
-  - path_regex: secrets/secrets\.yaml$
-    key_groups:
-      - age:
-          - *danny

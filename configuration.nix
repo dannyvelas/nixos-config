@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 let
   # Official Slack CLI (slack login/run/deploy, for building Slack apps) isn't in
   # nixpkgs -- only "slack-cli" there is rockymadden/slack-cli, an unrelated legacy-
@@ -92,7 +92,6 @@ in
     rclone      # Google Drive access; no official Linux client exists
     ripgrep     # rg
     slackCliOfficial  # official Slack CLI, see `let` block at top for why
-    sops        # edit/rotate secrets/secrets.yaml
     tmux
     waybar      # status bar
     wofi        # app launcher
@@ -161,25 +160,12 @@ in
     dotfilesDir = "${config.home.homeDirectory}/RemoteGit/MyGithub/dotfiles";
     outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
   in {
-    imports = [ inputs.sops-nix.homeManagerModules.sops ];
     home.stateVersion = "26.05";
 
-    # Master key for everything in secrets/secrets.yaml. Not managed by Nix:
-    # on a new machine, pull it out of the "nixos sops age key" Bitwarden
-    # note into this path before the first rebuild that needs a secret.
-    sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    sops.defaultSopsFile = ./secrets/secrets.yaml;
-
-    # Private keys are sops-managed (secrets/secrets.yaml), decrypted here on every activation
-    sops.secrets."ssh/id_ed25519_github" = {
-      path = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
-      mode = "0600";
-    };
-    sops.secrets."ssh/id_ed25519_vultr" = {
-      path = "${config.home.homeDirectory}/.ssh/id_ed25519_vultr";
-      mode = "0600";
-    };
-
+    # SSH private keys are NOT managed by Nix. Each key lives on disk, scoped
+    # to this one computer and one resource, passphrase-protected, with the
+    # passphrase (not the key) kept in Bitwarden. See the "how I manage my
+    # SSH keys" note and the SSH section of the bootstrap playbook.
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;

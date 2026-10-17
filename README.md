@@ -41,38 +41,23 @@ bumping an input), copy it back into the repo before committing:
 cp /etc/nixos/flake.lock ~/RemoteGit/MyGithub/nixos-config/flake.lock
 ```
 
-## GitHub SSH access
+## SSH access
 
-Git identity and the `Host github.com` / `IdentityAgent` SSH config are
-declared under `home-manager.users.dannyvelasquez` in `configuration.nix`
-and applied automatically by the rebuild above. `AddKeysToAgent yes` means
-the first SSH connection after a reboot that needs a key prompts for its
-passphrase and loads it into the agent itself, so there's no manual
-`ssh-add` step.
+Git identity and the `Host github.com` / `park-spot.co` / `IdentityAgent`
+SSH config are declared under `home-manager.users.dannyvelasquez` in
+`configuration.nix` and applied automatically by the rebuild above.
+`AddKeysToAgent yes` means the first SSH connection after a reboot that
+needs a key prompts for its passphrase and loads it into the agent itself,
+so there's no manual `ssh-add` step.
 
-The private key itself is managed by [sops-nix](https://github.com/Mic92/sops-nix):
-it's encrypted at rest in `secrets/secrets.yaml` (safe to commit even though
-this repo is public) and decrypted to `~/.ssh/id_ed25519_github` on every
-rebuild. Decryption needs one personal age key that isn't — and can't be —
-stored in this repo:
-
-**On a new machine**, bootstrap it once:
-
-```
-nix shell nixpkgs#age
-mkdir -p ~/.config/sops/age
-# paste the contents of the "nixos sops age key" Bitwarden note into:
-#   ~/.config/sops/age/keys.txt
-chmod 600 ~/.config/sops/age/keys.txt
-```
-
-Do this *before or after* the first `nixos-rebuild switch` — if the key
-file is missing, the rebuild still succeeds but `~/.ssh/id_ed25519_github`
-won't be created; rerun the rebuild once the key is in place.
-
-To add or rotate a secret later: `sops secrets/secrets.yaml` (opens
-`$EDITOR` on the decrypted contents, re-encrypts on save — `sops` is in
-`environment.systemPackages`).
+The private keys themselves are **not** managed by Nix. Per [How I Manage
+My SSH Keys](https://github.com/dannyvelas/notes/blob/main/vault/how-i-manage-my-ssh-keys.md)
+(private `notes` repo), each key is generated directly on this machine,
+scoped to one resource (GitHub, or the one server it talks to), protected
+with a passphrase, and that passphrase — never the key itself — is kept in
+Bitwarden. Bootstrapping a new machine's keys from scratch is covered by
+the SSH section of [How to Bootstrap a New
+Computer](https://github.com/dannyvelas/notes/blob/main/vault/how-to-bootstrap-a-new-computer.md).
 
 ## Shared dotfiles
 
