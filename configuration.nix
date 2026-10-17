@@ -150,9 +150,13 @@
       };
     };
 
-    # Private key is sops-managed (secrets/secrets.yaml), decrypted here on every activation
+    # Private keys are sops-managed (secrets/secrets.yaml), decrypted here on every activation
     sops.secrets."ssh/id_ed25519_github" = {
       path = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
+      mode = "0600";
+    };
+    sops.secrets."ssh/id_ed25519_vultr" = {
+      path = "${config.home.homeDirectory}/.ssh/id_ed25519_vultr";
       mode = "0600";
     };
 
@@ -163,6 +167,12 @@
       settings."github.com" = {
         HostName = "github.com";
         IdentityFile = "~/.ssh/id_ed25519_github";
+        IdentitiesOnly = "yes";
+      };
+      settings."park-spot.co" = {
+        HostName = "park-spot.co";
+        User = "admin";
+        IdentityFile = "~/.ssh/id_ed25519_vultr";
         IdentitiesOnly = "yes";
       };
     };
