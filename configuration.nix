@@ -114,9 +114,11 @@
   services.openssh.enable = true;
   services.avahi = { enable = true; nssmdns4 = true; publish = { enable = true; addresses = true; }; };
 
+  virtualisation.docker.enable = true;
+
   users.users.dannyvelasquez = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" ];
     hashedPasswordFile = "/etc/secrets/dannyvelasquez.hash";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINgCvIlrPS3ePhD/8nEQIUOssl75B+215b3HEcCkEnjb dannyvelasquez@Daniels-MacBook-Pro.local"
