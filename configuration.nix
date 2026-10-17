@@ -1,4 +1,27 @@
 { config, lib, pkgs, inputs, ... }:
+let
+  # Official Slack CLI (slack login/run/deploy, for building Slack apps) isn't in
+  # nixpkgs -- only "slack-cli" there is rockymadden/slack-cli, an unrelated legacy-
+  # token tool that also claims the `slack` binary name. Pin Slack's own release
+  # tarball by exact version + hash instead of their `curl | bash` installer, so the
+  # build stays reproducible. Bump the version and sha256 by hand to upgrade:
+  # https://docs.slack.dev/tools/metadata.json has the latest version number.
+  slackCliOfficial = pkgs.stdenv.mkDerivation {
+    pname = "slack-cli";
+    version = "4.10.0";
+    src = pkgs.fetchurl {
+      url = "https://downloads.slack-edge.com/slack-cli/slack_cli_4.10.0_linux_amd64.tar.gz";
+      sha256 = "9772b17f70c4ec522ea6ae25545220dfe17d6afb5babe28fa1cd55a24b2abffa";
+    };
+    sourceRoot = ".";
+    dontConfigure = true;
+    dontBuild = true;
+    installPhase = ''
+      install -Dm755 bin/slack $out/bin/slack
+      install -Dm444 LICENSE $out/share/licenses/slack-cli/LICENSE
+    '';
+  };
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -67,6 +90,7 @@
     playerctl   # media key bindings in sway/config
     rclone      # Google Drive access; no official Linux client exists
     ripgrep     # rg
+    slackCliOfficial  # official Slack CLI, see `let` block at top for why
     sops        # edit/rotate secrets/secrets.yaml
     tmux
     waybar      # status bar
