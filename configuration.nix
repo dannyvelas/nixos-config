@@ -172,6 +172,7 @@
       settings."park-spot.co" = {
         HostName = "park-spot.co";
         User = "admin";
+        Port = 17031;
         IdentityFile = "~/.ssh/id_ed25519_vultr";
         IdentitiesOnly = "yes";
       };
