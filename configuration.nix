@@ -84,6 +84,7 @@ in
     git
     gnumake     # handy for projects that use Makefiles
     jjui        # TUI for jujutsu
+    jq
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     neovim
     obsidian
