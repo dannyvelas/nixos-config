@@ -128,7 +128,7 @@
   home-manager.backupFileExtension = "backup";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.dannyvelasquez = { config, ... }: let
+  home-manager.users.dannyvelasquez = { config, pkgs, ... }: let
     dotfilesDir = "${config.home.homeDirectory}/RemoteGit/MyGithub/dotfiles";
     outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
   in {
@@ -183,6 +183,25 @@
     xdg.configFile."alacritty/alacritty.toml".source = outOfStore ".config/alacritty/alacritty.toml";
     xdg.configFile."fish".source = outOfStore ".config/fish";
     xdg.configFile."git/config".source = outOfStore ".config/git/config";
+
+    # Keeps ~/GoogleDrive mounted across reboots so `rclone mount` never has
+    # to be run by hand. Type=notify relies on rclone's own sd_notify call,
+    # so dependents see a fully-populated mount, not a race.
+    systemd.user.services.rclone-gdrive = {
+      Unit = {
+        Description = "Mount Google Drive via rclone";
+        After = [ "network-online.target" ];
+        Wants = [ "network-online.target" ];
+      };
+      Service = {
+        Type = "notify";
+        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${config.home.homeDirectory}/GoogleDrive";
+        ExecStart = "${pkgs.rclone}/bin/rclone mount gdrive: ${config.home.homeDirectory}/GoogleDrive --vfs-cache-mode writes --config ${config.home.homeDirectory}/.config/rclone/rclone.conf";
+        Restart = "on-failure";
+        RestartSec = 10;
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
   };
 
   services.mbpfan.enable = true;
