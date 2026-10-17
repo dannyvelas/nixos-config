@@ -45,12 +45,10 @@ cp /etc/nixos/flake.lock ~/RemoteGit/MyGithub/nixos-config/flake.lock
 
 Git identity and the `Host github.com` / `IdentityAgent` SSH config are
 declared under `home-manager.users.dannyvelasquez` in `configuration.nix`
-and applied automatically by the rebuild above. The agent itself doesn't
-persist loaded keys across reboots, so after every reboot:
-
-```
-ssh-add ~/.ssh/id_ed25519_github
-```
+and applied automatically by the rebuild above. `AddKeysToAgent yes` means
+the first SSH connection after a reboot that needs a key prompts for its
+passphrase and loads it into the agent itself, so there's no manual
+`ssh-add` step.
 
 The private key itself is managed by [sops-nix](https://github.com/Mic92/sops-nix):
 it's encrypted at rest in `secrets/secrets.yaml` (safe to commit even though
