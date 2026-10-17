@@ -52,6 +52,30 @@ persist loaded keys across reboots, so after every reboot:
 ssh-add ~/.ssh/id_ed25519_github
 ```
 
+The private key itself is managed by [sops-nix](https://github.com/Mic92/sops-nix):
+it's encrypted at rest in `secrets/secrets.yaml` (safe to commit even though
+this repo is public) and decrypted to `~/.ssh/id_ed25519_github` on every
+rebuild. Decryption needs one personal age key that isn't — and can't be —
+stored in this repo:
+
+**On a new machine**, bootstrap it once:
+
+```
+nix shell nixpkgs#age
+mkdir -p ~/.config/sops/age
+# paste the contents of the "nixos sops age key" Bitwarden note into:
+#   ~/.config/sops/age/keys.txt
+chmod 600 ~/.config/sops/age/keys.txt
+```
+
+Do this *before or after* the first `nixos-rebuild switch` — if the key
+file is missing, the rebuild still succeeds but `~/.ssh/id_ed25519_github`
+won't be created; rerun the rebuild once the key is in place.
+
+To add or rotate a secret later: `sops secrets/secrets.yaml` (opens
+`$EDITOR` on the decrypted contents, re-encrypts on save — `sops` is in
+`environment.systemPackages`).
+
 ## Shared dotfiles
 
 tmux, Neovim, Alacritty, and fish configs live in the separate

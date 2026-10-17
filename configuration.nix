@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -66,6 +66,7 @@
     obsidian
     playerctl   # media key bindings in sway/config
     ripgrep     # rg
+    sops        # edit/rotate secrets/secrets.yaml
     tmux
     waybar      # status bar
     wofi        # app launcher
@@ -132,7 +133,14 @@
     dotfilesDir = "${config.home.homeDirectory}/RemoteGit/MyGithub/dotfiles";
     outOfStore = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/${path}";
   in {
+    imports = [ inputs.sops-nix.homeManagerModules.sops ];
     home.stateVersion = "26.05";
+
+    # Master key for everything in secrets/secrets.yaml. Not managed by Nix:
+    # on a new machine, pull it out of the "nixos sops age key" Bitwarden
+    # note into this path before the first rebuild that needs a secret.
+    sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    sops.defaultSopsFile = ./secrets/secrets.yaml;
 
     programs.git = {
       enable = true;
@@ -142,7 +150,12 @@
       };
     };
 
-    # SSH key itself is generated separately with ssh-keygen (not something to put in the nix store)
+    # Private key is sops-managed (secrets/secrets.yaml), decrypted here on every activation
+    sops.secrets."ssh/id_ed25519_github" = {
+      path = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
+      mode = "0600";
+    };
+
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
