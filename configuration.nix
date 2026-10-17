@@ -48,8 +48,6 @@
   # alacritty's font (../dotfiles/.config/alacritty/alacritty.toml) is "FiraMono Nerd Font"
   fonts.packages = [ pkgs.font-awesome pkgs.nerd-fonts.fira-mono ];
 
-  environment.variables.EDITOR = "nvim"; # overrides NixOS's default of nano
-
   environment.systemPackages = with pkgs; [
     alacritty   # terminal
     bitwarden-desktop
@@ -142,14 +140,6 @@
     sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     sops.defaultSopsFile = ./secrets/secrets.yaml;
 
-    programs.git = {
-      enable = true;
-      settings.user = {
-        name = "Daniel Velasquez";
-        email = "42185968+dannyvelas@users.noreply.github.com";
-      };
-    };
-
     # Private keys are sops-managed (secrets/secrets.yaml), decrypted here on every activation
     sops.secrets."ssh/id_ed25519_github" = {
       path = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
@@ -191,6 +181,7 @@
     xdg.configFile."nvim".source = outOfStore ".config/nvim";
     xdg.configFile."alacritty/alacritty.toml".source = outOfStore ".config/alacritty/alacritty.toml";
     xdg.configFile."fish".source = outOfStore ".config/fish";
+    xdg.configFile."git/config".source = outOfStore ".config/git/config";
   };
 
   services.mbpfan.enable = true;
