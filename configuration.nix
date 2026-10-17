@@ -56,6 +56,7 @@
     claude-code
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     gcc         # C compiler nvim-treesitter needs to compile parsers
+    gh          # GitHub CLI
     git
     gnumake     # handy for projects that use Makefiles
     jjui        # TUI for jujutsu
