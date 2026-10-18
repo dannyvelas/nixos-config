@@ -93,6 +93,7 @@ in
     ripgrep     # rg
     slackCliOfficial  # official Slack CLI, see `let` block at top for why
     tmux
+    vultr-cli   # official Vultr CLI
     waybar      # status bar
     wofi        # app launcher
     mako        # notifications
