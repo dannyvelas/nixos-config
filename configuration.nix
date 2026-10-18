@@ -99,6 +99,7 @@ in
     wofi        # app launcher
     mako        # notifications
     tuigreet
+    yq-go       # YAML processor (mikefarah's, not the Python jq-wrapper yq)
     zoxide      # fish shell integration, see ../dotfiles/.config/fish/config.fish
   ] ++ (
     # LazyVim (../dotfiles/.config/nvim) uses Mason to install LSP servers,
