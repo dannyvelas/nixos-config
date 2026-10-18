@@ -86,6 +86,7 @@ in
     jjui        # TUI for jujutsu
     jq
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
+    kamal       # deploy backend-parkspot, see https://kamal-deploy.org/
     neovim
     obsidian
     playerctl   # media key bindings in sway/config
