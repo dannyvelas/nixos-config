@@ -89,6 +89,7 @@ in
     kamal       # deploy backend-parkspot, see https://kamal-deploy.org/
     neovim
     obsidian
+    openssl
     playerctl   # media key bindings in sway/config
     rclone      # Google Drive access; no official Linux client exists
     ripgrep     # rg
