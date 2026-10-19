@@ -223,6 +223,15 @@ in
     };
   };
 
+  # logind's default (HandlePowerKey=poweroff) shuts the machine down on a
+  # single press/release, so waking it from sleep -- or a finger slip --
+  # triggers an unwanted shutdown. Flip it to match real macOS: a short press
+  # does nothing, only a held press powers off.
+  services.logind.settings.Login = {
+    HandlePowerKey = "ignore";
+    HandlePowerKeyLongPress = "poweroff";
+  };
+
   services.mbpfan.enable = true;
   hardware.enableRedistributableFirmware = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
