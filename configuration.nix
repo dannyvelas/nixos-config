@@ -54,7 +54,7 @@ in
     enable = true;
     wrapperFeatures.gtk = true;
     # Default extraPackages includes foot and wmenu; alacritty/wofi are used instead
-    extraPackages = with pkgs; [ brightnessctl grim pulseaudio swayidle swaylock ];
+    extraPackages = with pkgs; [ brightnessctl grim pulseaudio slurp swayidle swaylock ];
   };
 
   services.greetd = {
