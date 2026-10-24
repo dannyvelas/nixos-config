@@ -78,6 +78,7 @@ in
     btop
     bws         # Bitwarden Secrets Manager CLI
     claude-code
+    kdePackages.dolphin  # file manager; `open .` opens it, see ../dotfiles/.config/fish/functions/open.fish
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     gcc         # C compiler nvim-treesitter needs to compile parsers
     gh          # GitHub CLI
@@ -128,6 +129,7 @@ in
       ruff                     # Python LSP/linter/formatter
       rust-analyzer            # Rust LSP (invoked directly by rustaceanvim)
       stylua                   # Lua formatter
+      terraform                # Terraform CLI (terraform-ls shells out to this for provider schemas)
       terraform-ls             # Terraform LSP
       tflint                   # Terraform linter
       tree-sitter              # CLI nvim-treesitter shells out to for parser builds
