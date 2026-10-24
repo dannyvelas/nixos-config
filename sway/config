@@ -68,9 +68,12 @@ input type:keyboard {
     xkb_options "ctrl:nocaps,compose:lctrl"
 }
 
-# Tap-to-click on the trackpad
+# Tap-to-click on the trackpad; disable the trackpad while typing (and for a
+# moment after) so grazing it with a thumb doesn't move the cursor — this is
+# what macOS does by default, and it isn't reliably on by default here.
 input type:touchpad {
     tap enabled
+    dwt enabled
 }
 
 ### Key bindings
