@@ -80,6 +80,7 @@ in
     claude-code
     kdePackages.dolphin  # file manager; `open .` opens it, see ../dotfiles/.config/fish/functions/open.fish
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
+    ffmpeg      # trim/convert the clips wf-recorder produces
     gcc         # C compiler nvim-treesitter needs to compile parsers
     gh          # GitHub CLI
     git
