@@ -84,10 +84,12 @@ in
     gh          # GitHub CLI
     git
     gnumake     # handy for projects that use Makefiles
+    imv         # Wayland-native image viewer
     jjui        # TUI for jujutsu
     jq
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     kamal       # deploy backend-parkspot, see https://kamal-deploy.org/
+    mpv         # video player
     neovim
     obsidian
     openssl
@@ -98,6 +100,8 @@ in
     tmux
     vultr-cli   # official Vultr CLI
     waybar      # status bar
+    wf-recorder # screen recording; see sway/config for keybind
+    wl-clipboard # wl-copy/wl-paste; Wayland equivalent of macOS pbcopy/pbpaste
     wofi        # app launcher
     mako        # notifications
     tuigreet

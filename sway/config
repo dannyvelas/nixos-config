@@ -248,6 +248,9 @@ bindsym $mod+r mode "resize"
     bindsym Ctrl+Shift+3 exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
     bindsym Ctrl+Shift+4 exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
 
+    # Screen recording with wf-recorder: press once to start, again to stop
+    bindsym Ctrl+Shift+5 exec pkill -INT -x wf-recorder || wf-recorder -f ~/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4
+
 # Status bar and notifications are handled by waybar/mako (see "exec" above),
 # not the stock swaybar block.
 
