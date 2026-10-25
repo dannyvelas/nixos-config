@@ -149,6 +149,20 @@ in
   services.openssh.enable = true;
   services.avahi = { enable = true; nssmdns4 = true; publish = { enable = true; addresses = true; }; };
 
+  # The trackpad (kernel driver bcm5974, 05ac:0259; that driver names the
+  # input device "bcm5974" rather than reusing the USB product string, which
+  # is the name 70-touchpad.rules' hwdb lookup keys on) enumerates over USB
+  # with no ACPI link udev can use to tell it's internal, so it gets tagged
+  # ID_INPUT_TOUCHPAD_INTEGRATION=external and libinput silently refuses to
+  # offer disable-while-typing (dwt in sway/config is a no-op as a result) —
+  # palm grazes while typing register as clicks. systemd ships this same
+  # override for other Apple trackpad product IDs (0280, 0340) that hit the
+  # identical issue; 0259 just isn't in their list.
+  services.udev.extraHwdb = ''
+    touchpad:usb:v05acp0259:name:bcm5974:*
+     ID_INPUT_TOUCHPAD_INTEGRATION=internal
+  '';
+
   virtualisation.docker.enable = true;
 
   users.users.dannyvelasquez = {
