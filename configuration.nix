@@ -78,9 +78,8 @@ in
     btop
     bws         # Bitwarden Secrets Manager CLI
     claude-code
-    kdePackages.dolphin  # file manager; `open .` opens it, see ../dotfiles/.config/fish/functions/open.fish
-    fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     ffmpeg      # trim/convert the clips wf-recorder produces
+    fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     gcc         # C compiler nvim-treesitter needs to compile parsers
     gh          # GitHub CLI
     git
@@ -90,7 +89,9 @@ in
     jq
     jujutsu     # jj; fish shell completions, see ../dotfiles/.config/fish/config.fish
     kamal       # deploy backend-parkspot, see https://kamal-deploy.org/
+    mako        # notifications
     mpv         # video player
+    nautilus    # file manager; default handler for inode/directory, see xdg.mimeApps below
     neovim
     obsidian
     openssl
@@ -99,13 +100,13 @@ in
     ripgrep     # rg
     slackCliOfficial  # official Slack CLI, see `let` block at top for why
     tmux
+    tuigreet
     vultr-cli   # official Vultr CLI
     waybar      # status bar
     wf-recorder # screen recording; see sway/config for keybind
     wl-clipboard # wl-copy/wl-paste; Wayland equivalent of macOS pbcopy/pbpaste
     wofi        # app launcher
-    mako        # notifications
-    tuigreet
+    xdg-utils   # xdg-open/xdg-mime; dispatches `open` to the right app by MIME type
     yq-go       # YAML processor (mikefarah's, not the Python jq-wrapper yq)
     zoxide      # fish shell integration, see ../dotfiles/.config/fish/config.fish
   ] ++ (
@@ -212,6 +213,31 @@ in
     };
 
     services.ssh-agent.enable = true;
+
+    # macOS-`open`-style default apps, dispatched by MIME type via xdg-open;
+    # see ../dotfiles/.config/fish/functions/open.fish for the `open` wrapper.
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = "org.gnome.Nautilus.desktop";
+
+        "image/png" = "imv.desktop";
+        "image/jpeg" = "imv.desktop";
+        "image/gif" = "imv.desktop";
+        "image/bmp" = "imv.desktop";
+        "image/webp" = "imv.desktop";
+        "image/svg+xml" = "imv.desktop";
+        "image/tiff" = "imv.desktop";
+
+        "video/mp4" = "mpv.desktop";
+        "video/x-matroska" = "mpv.desktop";
+        "video/webm" = "mpv.desktop";
+        "video/quicktime" = "mpv.desktop";
+        "video/x-msvideo" = "mpv.desktop";
+        "video/mpeg" = "mpv.desktop";
+        "video/ogg" = "mpv.desktop";
+      };
+    };
 
     xdg.configFile."sway/config".source = ./sway/config;
     xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
