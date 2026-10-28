@@ -73,11 +73,13 @@ in
 
   environment.systemPackages = with pkgs; [
     alacritty   # terminal
+    anki        # flashcards
     bitwarden-desktop
     brightnessctl
     btop
     bws         # Bitwarden Secrets Manager CLI
     claude-code
+    dnsutils    # dig
     ffmpeg      # trim/convert the clips wf-recorder produces
     fzf         # fish shell integration, see ../dotfiles/.config/fish/config.fish
     gcc         # C compiler nvim-treesitter needs to compile parsers
